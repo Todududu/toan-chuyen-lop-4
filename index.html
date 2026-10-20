@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Toán Chuyên Lớp 4</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Be+Vietnam+Pro:ital,wght@0,400;0,600;0,700;1,400&family=Patrick+Hand&display=swap&subset=vietnamese">
+<style>
+/* Layout: a school exercise book — grid-paper page, red margin rule, topics as numbered lessons in a 4-stage route */
+:root{
+  --paper:#F6F8FC; --grid:#DCE5F2; --ink:#1B2A4A; --muted:#5B6884;
+  --pen:#D3263A; --pen-soft:#FBE3E6; --ok:#1F8A5B; --ok-soft:#DDF2E7;
+  --card:#FFFFFF; --line:#C9D5E6; --chip:#E9EEF7;
+  --f-display:"Baloo 2","Be Vietnam Pro",system-ui,sans-serif;
+  --f-body:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-hand:"Patrick Hand","Be Vietnam Pro",cursive;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#15201C; --grid:#1E2D27; --ink:#E7EFE9; --muted:#9FB3A8;
+  --pen:#FF8A8A; --pen-soft:#3A2427; --ok:#7BD9A6; --ok-soft:#1D3A2D;
+  --card:#1A2723; --line:#2C3D36; --chip:#22332C; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#15201C; --grid:#1E2D27; --ink:#E7EFE9; --muted:#9FB3A8;
+  --pen:#FF8A8A; --pen-soft:#3A2427; --ok:#7BD9A6; --ok-soft:#1D3A2D;
+  --card:#1A2723; --line:#2C3D36; --chip:#22332C; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 16px/1.6 var(--f-body);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:24px 24px}
+.wrap{max-width:1040px;margin:0 auto;padding-block:32px 64px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--pen);outline-offset:2px;border-radius:4px}
+
+header.top{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:end;
+  border-left:3px solid var(--pen);padding-left:20px;margin-bottom:28px}
+.eyebrow{font:600 12px/1 var(--f-body);letter-spacing:.12em;text-transform:uppercase;color:var(--pen)}
+h1{font:800 clamp(34px,6vw,56px)/1 var(--f-display);margin:8px 0 10px;text-wrap:balance}
+.lead{max-width:62ch;color:var(--muted);margin:0}
+.progress{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;min-width:210px}
+.progress .num{font:800 30px/1 var(--f-display);font-variant-numeric:tabular-nums}
+.bar{height:8px;background:var(--chip);border-radius:99px;overflow:hidden;margin-top:8px}
+.bar i{display:block;height:100%;width:0;background:var(--ok);transition:width .4s}
+.progress small{color:var(--muted)}
+
+.route{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:0 0 20px;padding:0;list-style:none}
+.route li{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;min-width:0}
+.route b{font:800 22px/1 var(--f-display);color:var(--pen)}
+.route strong{display:block;margin-top:4px}
+.route span{color:var(--muted);font-size:14px}
+
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 24px}
+.filters button{font:600 14px var(--f-body);color:var(--ink);background:var(--chip);border:1px solid transparent;
+  border-radius:99px;padding:7px 14px;cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+
+.stage-title{font:800 24px/1.2 var(--f-display);margin:36px 0 14px;display:flex;gap:10px;align-items:baseline}
+.stage-title em{font:400 15px var(--f-body);color:var(--muted);font-style:normal}
+
+.topic{background:var(--card);border:1px solid var(--line);border-radius:14px;margin-bottom:16px;overflow:hidden}
+.topic.done{border-color:var(--ok)}
+.t-head{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:start;padding:18px 20px 6px}
+.t-no{font:800 28px/1 var(--f-display);color:var(--pen);font-variant-numeric:tabular-nums;min-width:1.6em}
+.t-head h3{font:800 21px/1.25 var(--f-display);margin:0;text-wrap:balance}
+.t-head p{margin:2px 0 0;color:var(--muted);font-size:15px}
+.chk{display:flex;gap:6px;align-items:center;font-size:14px;color:var(--muted);cursor:pointer;white-space:nowrap}
+.chk input{width:18px;height:18px;accent-color:var(--ok)}
+.topic.done .chk{color:var(--ok);font-weight:600}
+
+.t-body{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:18px;padding:10px 20px 20px}
+.key{background:var(--pen-soft);border-radius:10px;padding:12px 14px;margin-bottom:12px}
+.key h4,.links h4{font:600 12px/1 var(--f-body);letter-spacing:.1em;text-transform:uppercase;margin:0 0 8px;color:var(--pen)}
+.links h4{color:var(--muted)}
+.key ul{margin:0;padding-left:18px}
+.key li{margin:2px 0}
+
+details.prob{border-top:1px dashed var(--line);padding:10px 0}
+details.prob:first-of-type{border-top:0}
+.prob .q{margin:0 0 6px}
+.prob .q b{color:var(--pen)}
+.tag{display:inline-block;font:600 11px/1 var(--f-body);letter-spacing:.06em;text-transform:uppercase;
+  padding:4px 7px;border-radius:6px;background:var(--chip);color:var(--muted);margin-left:6px;vertical-align:2px}
+.tag.hard{background:var(--pen-soft);color:var(--pen)}
+summary{cursor:pointer;font-weight:600;font-size:14px;color:var(--ok);list-style:none;display:inline-flex;gap:6px;align-items:center}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▸";transition:transform .2s}
+details[open] summary::before{transform:rotate(90deg)}
+.sol{font:400 19px/1.45 var(--f-hand);background:var(--ok-soft);border-radius:10px;padding:10px 14px;margin-top:8px}
+.sol p{margin:4px 0}
+.sol .ans{color:var(--pen);font-weight:700}
+
+.links ol{margin:0;padding-left:20px;font-size:15px}
+.links li{margin:4px 0}
+.links a{text-decoration-color:var(--line);text-underline-offset:3px}
+.links a:hover{text-decoration-color:var(--pen)}
+.links .all{display:inline-block;margin-top:10px;font-weight:600;font-size:14px;color:var(--pen)}
+
+.fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;font-size:.82em;line-height:1.05;margin:0 2px}
+.fr b{font-weight:inherit}
+.fr b:first-child{border-bottom:1.5px solid currentColor;padding:0 2px}
+
+.practice{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.practice a{display:block;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;text-decoration:none}
+.practice a:hover{border-color:var(--pen)}
+.practice strong{display:block;font:800 18px/1.25 var(--f-display)}
+.practice span{color:var(--muted);font-size:14px}
+.tips{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--pen);border-radius:12px;padding:16px 20px;margin-top:28px}
+.tips h2{font:800 20px var(--f-display);margin:0 0 6px}
+.tips ul{margin:0;padding-left:20px}
+footer{margin-top:28px;color:var(--muted);font-size:13px}
+
+@media (max-width:820px){
+  .route{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .t-body{grid-template-columns:minmax(0,1fr)}
+  .practice{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){
+  header.top{grid-template-columns:minmax(0,1fr)}
+  .t-head{grid-template-columns:auto minmax(0,1fr)}
+  .chk{grid-column:2}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <div class="eyebrow">Sổ tay ôn thi · Nguồn bài giảng: MathX</div>
+      <h1>Toán Chuyên Lớp 4</h1>
+      <p class="lead">14 chuyên đề hay ra trong đề thi vào lớp 6 chuyên, xếp theo thứ tự nên học. Mỗi chuyên đề có công thức cần nhớ, bài mẫu kèm lời giải (bấm để xem) và link tới đúng video bài giảng trên MathX.</p>
+    </div>
+    <div class="progress" aria-live="polite">
+      <div class="num"><span id="pDone">0</span>/<span id="pTotal">14</span></div>
+      <small>chuyên đề đã học xong</small>
+      <div class="bar"><i id="pBar"></i></div>
+    </div>
+  </header>
+
+  <ol class="route" aria-label="Lộ trình 4 giai đoạn">
+    <li><b>1</b><strong>Nền tảng về số</strong><span>Dãy số, cấu tạo số, chia hết, trung bình cộng · ~4 tuần</span></li>
+    <li><b>2</b><strong>Toán điển hình</strong><span>Tổng–hiệu, tỉ số, tính tuổi, giả thiết tạm · ~5 tuần</span></li>
+    <li><b>3</b><strong>Nâng cao</strong><span>Phân số, hình học, lập số, logic, Dirichlet · ~6 tuần</span></li>
+    <li><b>4</b><strong>Luyện đề</strong><span>1001 bài tư duy, Kangaroo, AMC, thi thử · liên tục</span></li>
+  </ol>
+
+  <div class="filters" role="group" aria-label="Lọc theo giai đoạn">
+    <button type="button" data-f="all" aria-pressed="true">Tất cả</button>
+    <button type="button" data-f="1" aria-pressed="false">Giai đoạn 1</button>
+    <button type="button" data-f="2" aria-pressed="false">Giai đoạn 2</button>
+    <button type="button" data-f="3" aria-pressed="false">Giai đoạn 3</button>
+    <button type="button" data-f="todo" aria-pressed="false">Chưa học</button>
+  </div>
+
+  <main id="topics"></main>
+
+  <section id="stage4">
+    <h2 class="stage-title">Giai đoạn 4 · Luyện đề <em>làm đều đặn song song từ giai đoạn 2</em></h2>
+    <div class="practice">
+      <a href="https://mathx.vn/chuyen-de/71.html" target="_blank" rel="noopener"><strong>1001 bài toán tư duy lớp 4</strong><span>19 phần, mỗi phần: làm bài luyện tập trước, xem video hướng dẫn sau</span></a>
+      <a href="https://mathx.vn/trang-tinh/hoc-toan-nang-cao-qua-cac-ky-thi-toan-lop-4.html" target="_blank" rel="noopener"><strong>Đề các kỳ thi HSG</strong><span>Video giải đề MYTS, IMAS, AMC, APMOPS, IKMC, SASMO</span></a>
+      <a href="https://mathx.vn/ky-thi-thu-mon-toan.html?category=80" target="_blank" rel="noopener"><strong>Thi thử môn Toán lớp 4</strong><span>Làm đề có giờ, chấm điểm tự động</span></a>
+      <a href="https://mathx.vn/chuyen-de/26.html" target="_blank" rel="noopener"><strong>Kangaroo (IKMC)</strong><span>Đề thi Toán quốc tế Kangaroo</span></a>
+      <a href="https://mathx.vn/chuyen-de/29.html" target="_blank" rel="noopener"><strong>AMC Australia</strong><span>Đề thi Toán Úc</span></a>
+      <a href="https://mathx.vn/tai-lieu.html?category=4" target="_blank" rel="noopener"><strong>Tài liệu lớp 4</strong><span>File đề và bài tập để in ra giấy</span></a>
+    </div>
+  </section>
+
+  <aside class="tips">
+    <h2>Cách học hiệu quả với con</h2>
+    <ul>
+      <li>Mỗi buổi 45–60 phút, 4–5 buổi/tuần. Xem 1 video MathX, rồi cho con tự giải lại bài mẫu ở đây trước khi bấm xem lời giải.</li>
+      <li>Toán điển hình (giai đoạn 2) luôn bắt con <strong>vẽ sơ đồ đoạn thẳng</strong>. Đề chuyên chấm cả cách trình bày.</li>
+      <li>Bài sai thì chép vào một quyển "vở bài sai", sau 1 tuần cho con làm lại.</li>
+      <li>Từ giai đoạn 2, mỗi cuối tuần làm 1 phần "1001 bài toán tư duy" để giữ phản xạ.</li>
+    </ul>
+  </aside>
+
+  <footer>Video bài giảng thuộc MathX (cần đăng nhập tài khoản). Bài mẫu và lời giải trên trang này được soạn riêng theo từng dạng toán. Tiến độ "đã học" chỉ lưu trên trình duyệt này.</footer>
+</div>
+
+<script>
+const M = "https://mathx.vn/bai-giang/";
+const C = "https://mathx.vn/chuyen-de/";
+const fr = s => s.replace(/\{([^{}\/]+)\/([^{}]+)\}/g, '<span class="fr"><b>$1</b><b>$2</b></span>');
+
+const TOPICS = [
+ {id:"dayso", st:1, name:"Dãy số – Quy luật", sub:"Số số hạng, số hạng thứ n, tổng dãy cách đều, bài toán trang sách",
+  key:["Số số hạng = (Số cuối − Số đầu) : Khoảng cách + 1","Số hạng thứ n = Số đầu + (n − 1) × Khoảng cách","Tổng = (Số đầu + Số cuối) × Số số hạng : 2"],
+  probs:[
+   {q:"Cho dãy số 3, 7, 11, 15, … Tìm số hạng thứ 50 và tính tổng 50 số hạng đầu tiên.",
+    s:["Khoảng cách giữa hai số liền nhau là 4.","Số hạng thứ 50: 3 + (50 − 1) × 4 = 199.","Tổng 50 số hạng: (3 + 199) × 50 : 2 = 5050."],a:"199 và 5050"},
+   {q:"Đánh số trang một quyển sách dày 150 trang (bắt đầu từ trang 1) cần dùng tất cả bao nhiêu chữ số?",h:1,
+    s:["Trang 1 → 9: 9 trang × 1 chữ số = 9 chữ số.","Trang 10 → 99: 90 trang × 2 = 180 chữ số.","Trang 100 → 150: (150 − 100 + 1) = 51 trang × 3 = 153 chữ số.","Tổng: 9 + 180 + 153 = 342."],a:"342 chữ số"}],
+  links:[["Tìm số số hạng của dãy cách đều","bai-4-tim-so-so-hang-cua-day-so-cach-deu-6"],["Tìm số hạng thứ n","bai-5-tim-so-hang-thu-n-cua-day-so-cach-deu-7"],["Tính tổng dãy số cách đều","bai-6-tinh-tong-day-so-cach-deu-8"],["Bài toán trang sách","bai-8-bai-toan-trang-sach-10"],["Dãy hình có quy luật","bai-9-day-hinh-co-qui-luat-phan-1-11"]],
+  all:"day-so-quy-luat-4"},
+
+ {id:"cautao", st:1, name:"Cấu tạo số", sub:"Thêm, xóa chữ số; liên hệ giữa số và các chữ số của nó",
+  key:["Viết thêm 1 chữ số c vào bên phải số A: số mới = A × 10 + c","Xóa chữ số hàng đơn vị: số cũ = số mới × 10 + chữ số bị xóa","Số ab (có gạch trên) = a × 10 + b — tách số để lập đẳng thức"],
+  probs:[
+   {q:"Viết thêm chữ số 5 vào bên phải một số tự nhiên thì được số mới lớn hơn số cũ 1310 đơn vị. Tìm số đó.",
+    s:["Gọi số cần tìm là A. Số mới = A × 10 + 5.","Số mới − A = 9 × A + 5 = 1310.","9 × A = 1305 → A = 145. Thử lại: 1455 − 145 = 1310 ✓"],a:"145"},
+   {q:"Tìm tất cả các số có hai chữ số, biết mỗi số gấp 7 lần tổng các chữ số của nó.",h:1,
+    s:["Số ab = 10 × a + b = 7 × (a + b) = 7 × a + 7 × b.","Bớt hai vế: 3 × a = 6 × b → a = 2 × b.","b = 1, 2, 3, 4 cho a = 2, 4, 6, 8."],a:"21, 42, 63, 84"}],
+  links:[["Thêm chữ số vào số đã cho","bai-1-them-chu-so-vao-so-da-cho-273"],["Xóa chữ số của một số","bai-4-xoa-chu-so-cua-mot-so-137"],["Liên hệ giữa số cần tìm và các chữ số","bai-6-lien-he-giua-so-can-tim-va-cac-chu-so-cua-no-139"]],
+  all:"cau-tao-so-68"},
+
+ {id:"chiahet", st:1, name:"Dấu hiệu chia hết", sub:"Chia hết cho 2, 3, 5, 9 và cách vận dụng để tìm chữ số",
+  key:["Chia hết cho 2: tận cùng 0, 2, 4, 6, 8 · cho 5: tận cùng 0 hoặc 5","Chia hết cho 3 (hoặc 9): tổng các chữ số chia hết cho 3 (hoặc 9)","Chia hết cho cả 2 và 5 ⇔ tận cùng là 0 — luôn xét chữ số tận cùng trước"],
+  probs:[
+   {q:"Thay a, b bằng chữ số thích hợp để số 4a7b chia hết cho cả 2, 5 và 9.",
+    s:["Chia hết cho 2 và 5 → b = 0.","Tổng chữ số 4 + a + 7 + 0 = 11 + a phải chia hết cho 9 → 11 + a = 18 → a = 7."],a:"Số 4770"},
+   {q:"Tìm số nhỏ nhất có 4 chữ số khác nhau, chia hết cho cả 3 và 5.",h:1,
+    s:["Chia hết cho 5 → tận cùng 0 hoặc 5.","Muốn nhỏ nhất, bắt đầu bằng 10…: tận cùng 0 thì trùng chữ số 0, nên thử tận cùng 5: số 10b5.","Tổng 1 + 0 + b + 5 = 6 + b chia hết cho 3 → b = 0, 3, 6, 9; b ≠ 0 (trùng) → b = 3.","Số 1035 nhỏ hơn mọi số dạng 1…0 hợp lệ (nhỏ nhất là 1230)."],a:"1035"}],
+  links:[["Dấu hiệu chia hết cho 3 và 9","bai-3-dau-hieu-chia-het-cho-3-va-9-128"],["Luyện tập chia hết cho 2, 3, 5, 9","bai-4-luyen-tap-dau-hieu-chia-het-cho-2-3-5-9-129"],["Vận dụng dấu hiệu chia hết để giải toán","bai-5-van-dung-dau-hieu-chia-het-de-giai-toan-130"]],
+  all:"dau-hieu-chia-het-7"},
+
+ {id:"tbc", st:1, name:"Trung bình cộng", sub:"Tìm TBC, tìm số khi biết TBC, dạng nhiều hơn / ít hơn TBC",
+  key:["TBC = Tổng các số : Số các số","Dãy cách đều: TBC = (Số đầu + Số cuối) : 2","Dạng \"hơn TBC x đơn vị\": vẽ sơ đồ, phần hơn chia đều cho các số còn lại"],
+  probs:[
+   {q:"An có 18 viên bi, Bình có 16 viên bi. Cường có số bi nhiều hơn trung bình cộng số bi của cả ba bạn là 2 viên. Hỏi Cường có bao nhiêu viên bi?",h:1,
+    s:["Cường hơn TBC 2 viên, nên số bi của An và Bình cộng lại phải ít hơn 2 lần TBC đúng 2 viên.","Vậy 2 lần TBC = 18 + 16 + 2 = 36 → TBC = 18 viên.","Cường = 18 + 2 = 20 viên.","Thử lại: (18 + 16 + 20) : 3 = 18 ✓"],a:"20 viên"},
+   {q:"Trung bình cộng của 5 số chẵn liên tiếp là 24. Tìm 5 số đó.",
+    s:["5 số cách đều nên số ở giữa (số thứ 3) bằng TBC = 24.","Hai số trước và sau cách nhau 2 đơn vị."],a:"20, 22, 24, 26, 28"}],
+  links:[["Tìm số khi biết trung bình cộng","bai-2-tim-so-khi-biet-trung-binh-cong-122"],["Dạng ít hơn / nhiều hơn TBC","bai-4-dang-toan-it-honnhieu-hon-trung-binh-cong-124"],["Dạng ít hơn / nhiều hơn TBC (tiếp)","bai-5-dang-toan-nhieu-honit-hon-trung-binh-cong-tiep-125"]],
+  all:"trung-binh-cong-54"},
+
+ {id:"tonghieu", st:2, name:"Tổng – Hiệu", sub:"Tìm hai số khi biết tổng và hiệu, các bẫy \"cho đi – nhận về\"",
+  key:["Số lớn = (Tổng + Hiệu) : 2 · Số bé = (Tổng − Hiệu) : 2","Bẫy: \"A cho B x thì bằng nhau\" → A hơn B là 2 × x","Tổng hoặc hiệu bị \"giấu\" trong lời văn (số lớn nhất có 3 chữ số…)"],
+  probs:[
+   {q:"Hai bạn An và Bình có tất cả 64 quyển vở. Nếu An cho Bình 5 quyển thì số vở hai bạn bằng nhau. Hỏi mỗi bạn có bao nhiêu quyển?",h:1,
+    s:["An cho đi 5 quyển, Bình nhận thêm 5 quyển rồi mới bằng nhau → lúc đầu An hơn Bình 5 × 2 = 10 quyển.","An = (64 + 10) : 2 = 37 quyển. Bình = 64 − 37 = 27 quyển."],a:"An 37, Bình 27"},
+   {q:"Tổng hai số là số lớn nhất có 3 chữ số, hiệu hai số là số lẻ lớn nhất có 2 chữ số. Tìm hai số đó.",
+    s:["Tổng = 999, Hiệu = 99.","Số lớn = (999 + 99) : 2 = 549. Số bé = 549 − 99 = 450."],a:"549 và 450"}],
+  links:[["Tìm 2 số khi biết tổng và hiệu","bai-1-bai-toan-tim-2-so-khi-biet-tong-va-hieu-cua-chung-91"],["Tổng và hiệu (tiếp theo)","bai-2-bai-toan-tim-2-so-khi-biet-tong-va-hieu-cua-chung-tiep-theo-92"],["Bài toán tổng hiệu với dãy số","bai-3-bai-toan-tong-hieu-voi-day-so-93"]],
+  all:"bai-toan-tong-hieu-50"},
+
+ {id:"tiso", st:2, name:"Tổng – Tỉ số, Hiệu – Tỉ số", sub:"Vẽ sơ đồ phần bằng nhau",
+  key:["Tổng – tỉ: Giá trị 1 phần = Tổng : Tổng số phần","Hiệu – tỉ: Giá trị 1 phần = Hiệu : Hiệu số phần","Tỉ số {4/5} nghĩa là số thứ nhất 4 phần, số thứ hai 5 phần"],
+  probs:[
+   {q:"Hai kho chứa tất cả 360 tấn thóc. Số thóc kho A bằng {4/5} số thóc kho B. Mỗi kho chứa bao nhiêu tấn?",
+    s:["Kho A: 4 phần, kho B: 5 phần → tổng 9 phần.","1 phần = 360 : 9 = 40 tấn.","A = 40 × 4 = 160 tấn; B = 40 × 5 = 200 tấn."],a:"A 160 tấn, B 200 tấn"},
+   {q:"Số thứ nhất gấp 3 lần số thứ hai và hơn số thứ hai 84 đơn vị. Tìm hai số.",
+    s:["Số thứ hai 1 phần, số thứ nhất 3 phần → hiệu 2 phần.","1 phần = 84 : 2 = 42."],a:"126 và 42"}],
+  links:[["Tìm hai số khi biết tổng và tỉ số","bai-1-tim-hai-so-khi-biet-tong-va-ti-so-140"],["Tìm hai số khi biết hiệu và tỉ số","bai-2-tim-2-so-khi-biet-hieu-va-ti-so-141"],["Tổng hoặc hiệu và tỉ số (nâng cao)","bai-4-tim-hai-so-khi-biet-tong-hoac-hieu-va-ti-so-tiep-theo-1837"]],
+  all:"bai-toan-tong-ti-so-hieu-ti-so-51"},
+
+ {id:"tuoi", st:2, name:"Bài toán tính tuổi", sub:"Hiệu số tuổi không đổi theo thời gian",
+  key:["Hiệu số tuổi của hai người KHÔNG thay đổi","Mỗi năm, tổng tuổi hai người tăng thêm 2","Luôn vẽ sơ đồ ở đúng thời điểm có tỉ số"],
+  probs:[
+   {q:"Mẹ hơn con 28 tuổi. Sau 2 năm nữa, tuổi mẹ gấp 5 lần tuổi con. Tính tuổi mỗi người hiện nay.",
+    s:["Sau 2 năm, mẹ vẫn hơn con 28 tuổi. Mẹ 5 phần, con 1 phần → hiệu 4 phần.","1 phần = 28 : 4 = 7 → tuổi con sau 2 năm là 7.","Con hiện nay: 7 − 2 = 5 tuổi. Mẹ: 5 + 28 = 33 tuổi."],a:"Con 5 tuổi, mẹ 33 tuổi"},
+   {q:"Hiện nay tổng số tuổi của bố và con là 45. Cách đây 5 năm, tuổi bố gấp 4 lần tuổi con. Tính tuổi mỗi người hiện nay.",h:1,
+    s:["5 năm trước, mỗi người bớt 5 tuổi → tổng bớt 10: 45 − 10 = 35.","Lúc đó bố 4 phần, con 1 phần → 5 phần = 35 → 1 phần = 7.","Con lúc đó 7, bố 28 → hiện nay con 12, bố 33."],a:"Con 12 tuổi, bố 33 tuổi"}],
+  links:[["Tính tuổi khi biết hiệu và tỉ số","bai-2-tinh-tuoi-khi-biet-hieu-va-ti-so-tuoi-phan-1-21"],["Tổng, hiệu và tỉ số tuổi","bai-3-tinh-tuoi-khi-biet-tong-hieu-va-ti-so-tuoi-22"],["Phương pháp vẽ sơ đồ tính tuổi","bai-4-phuong-phap-ve-so-do-trong-bai-toan-tinh-tuoi-146"]],
+  all:"bai-toan-tinh-tuoi-3"},
+
+ {id:"gtt", st:2, name:"Giả thiết tạm", sub:"Gà – chó, xe chở khách: giả sử tất cả cùng một loại",
+  key:["Giả sử tất cả là loại A → tính ra kết quả, so với đề bài","Phần chênh lệch : chênh lệch của 1 đối tượng = số đối tượng loại B","Luôn thử lại kết quả với đề bài"],
+  probs:[
+   {q:"Vừa gà vừa chó có 36 con, đếm được 100 chân. Hỏi có bao nhiêu con gà, bao nhiêu con chó?",
+    s:["Giả sử cả 36 con đều là gà: 36 × 2 = 72 chân, thiếu 100 − 72 = 28 chân.","Mỗi con chó hơn con gà 2 chân → số chó = 28 : 2 = 14 con.","Gà = 36 − 14 = 22 con. Thử lại: 14 × 4 + 22 × 2 = 100 ✓"],a:"22 gà, 14 chó"},
+   {q:"Có 420 học sinh đi tham quan bằng 12 xe gồm hai loại: xe 30 chỗ và xe 45 chỗ, mọi xe đều chở đủ chỗ. Hỏi mỗi loại có bao nhiêu xe?",h:1,
+    s:["Giả sử cả 12 xe đều là xe 30 chỗ: chở được 360 học sinh, thiếu 60.","Mỗi xe 45 chỗ chở hơn 15 bạn → số xe 45 chỗ = 60 : 15 = 4 xe.","Xe 30 chỗ: 12 − 4 = 8 xe. Thử lại: 4 × 45 + 8 × 30 = 420 ✓"],a:"4 xe 45 chỗ, 8 xe 30 chỗ"}],
+  links:[["Mở đầu về phương pháp giả thiết tạm","bai-1-mo-dau-ve-phuong-phap-gia-thiet-tam-120"],["Giả thiết tạm đơn","bai-2-bai-toan-gia-thiet-tam-don-149"],["Giới thiệu giả thiết tạm kép","bai-5-gioi-thieu-bai-toan-gia-thiet-tam-kep-152"]],
+  all:"bai-toan-gia-thiet-tam-46"},
+
+ {id:"phanso", st:3, name:"Phân số", sub:"So sánh bằng phần bù, phần hơn; tính nhanh dãy phân số có quy luật",
+  key:["Phần bù đến 1: phân số nào có phần bù NHỎ hơn thì LỚN hơn","Tách {1/(n×(n+1))} = {1/n} − {1/(n+1)} để các số hạng triệt tiêu","{1/2} + {1/4} + … + {1/2ⁿ} = 1 − {1/2ⁿ}"],
+  probs:[
+   {q:"So sánh {2023/2024} và {2024/2025} mà không quy đồng.",
+    s:["Phần bù đến 1: 1 − {2023/2024} = {1/2024}; 1 − {2024/2025} = {1/2025}.","{1/2024} > {1/2025} nên phân số thứ nhất \"thiếu\" nhiều hơn."],a:"{2023/2024} < {2024/2025}"},
+   {q:"Tính nhanh: {1/1×2} + {1/2×3} + {1/3×4} + … + {1/9×10}",h:1,
+    s:["Mỗi số hạng tách được: {1/1×2} = 1 − {1/2}; {1/2×3} = {1/2} − {1/3}; …","Cộng lại, các số ở giữa triệt tiêu, chỉ còn 1 − {1/10}."],a:"{9/10}"},
+   {q:"Tính nhanh: {1/2} + {1/4} + {1/8} + {1/16} + {1/32}",
+    s:["Mỗi số hạng bằng một nửa số trước, nên tổng luôn còn thiếu đúng số hạng cuối để thành 1.","Tổng = 1 − {1/32}."],a:"{31/32}"}],
+  links:[["So sánh phân số bằng phần bù","bai-6-so-sanh-phan-so-bang-phuong-phap-so-sanh-phan-bu-155"],["So sánh bằng phân số trung gian","bai-5-so-sanh-hai-phan-so-su-dung-phan-so-trung-gian-154"],["Phân số với tổng hiệu, tổng tỉ, hiệu tỉ","bai-10-phan-so-voi-bai-toan-tong-hieu-tong-ti-hieu-ti-390"],["Tính nhanh dãy phân số có quy luật","bai-16-tinh-nhanh-day-phan-so-co-qui-luat-396"]],
+  all:"chuyen-de-phan-so-8"},
+
+ {id:"hinh", st:3, name:"Hình học", sub:"Chu vi – diện tích, tăng giảm kích thước, đếm hình",
+  key:["Nửa chu vi hình chữ nhật = Dài + Rộng → thường quy về bài tổng – hiệu","Tăng chiều này, giảm chiều kia để thành hình vuông → biết hiệu hai cạnh","Đếm hình vuông trên lưới n × n: 1² + 2² + … + n²"],
+  probs:[
+   {q:"Một hình chữ nhật có chu vi 56 cm. Nếu tăng chiều rộng 4 cm và giảm chiều dài 4 cm thì được một hình vuông. Tính diện tích hình chữ nhật.",h:1,
+    s:["Nửa chu vi: 56 : 2 = 28 cm.","Thành hình vuông khi bớt dài 4, thêm rộng 4 → chiều dài hơn chiều rộng 8 cm.","Dài = (28 + 8) : 2 = 18 cm; Rộng = 10 cm.","Diện tích = 18 × 10 = 180 cm²."],a:"180 cm²"},
+   {q:"Một tấm bảng được kẻ thành lưới 4 × 4 ô vuông bằng nhau. Trên đó có tất cả bao nhiêu hình vuông?",
+    s:["Hình vuông 1×1: 16 · 2×2: 9 · 3×3: 4 · 4×4: 1.","Cộng lại: 16 + 9 + 4 + 1."],a:"30 hình vuông"}],
+  links:[["Chuyên đề hình học – Bài 1","chuyen-de-hinh-hoc-bai-1-2213"],["Chuyên đề hình học – Bài 2","chuyen-de-hinh-hoc-bai-2-2214"],["Tăng giảm diện tích – Phần 1","bai-toan-tang-giam-dien-tich-phan-1-3505"],["Tăng giảm diện tích – Phần 2","bai-toan-tang-giam-dien-tich-phan-2-3506"]],
+  all:"chuyen-de-hinh-hoc-48"},
+
+ {id:"lapso", st:3, name:"Lập số và đếm", sub:"Số lớn nhất / bé nhất theo tổng chữ số; đếm số cách lập số",
+  key:["Số bé nhất: ít chữ số nhất, chữ số đầu nhỏ nhất, các chữ số sau càng lớn càng tốt (nhiều số 9 ở cuối)","Số lớn nhất: nhiều chữ số nhất, chữ số lớn đặt trước","Đếm: nhân số cách chọn ở từng hàng (hàng đầu không được là 0)"],
+  probs:[
+   {q:"Tìm số tự nhiên nhỏ nhất có tổng các chữ số bằng 30.",
+    s:["Ba chữ số tối đa có tổng 27 < 30 → cần ít nhất 4 chữ số.","Muốn nhỏ nhất, dồn số 9 về cuối: _999 → chữ số đầu = 30 − 27 = 3."],a:"3999"},
+   {q:"Từ 4 chữ số 0, 1, 2, 3 lập được bao nhiêu số có 3 chữ số khác nhau?",
+    s:["Hàng trăm: 3 cách (bỏ số 0).","Hàng chục: 3 cách (còn lại 3 chữ số).","Hàng đơn vị: 2 cách. Tổng: 3 × 3 × 2."],a:"18 số"},
+   {q:"Tìm số lớn nhất có các chữ số khác nhau mà tổng các chữ số bằng 20.",h:1,
+    s:["Muốn lớn nhất thì cần nhiều chữ số nhất. 0 + 1 + 2 + 3 + 4 + 5 + 6 = 21 > 20 → tối đa 6 chữ số, và phải có chữ số 0.","5 chữ số khác 0 còn lại có tổng 20. Để chữ số đầu lớn nhất: bốn số nhỏ nhất 1 + 2 + 3 + 4 = 10 thì số còn lại là 10 (không được). Thử 9: bốn số còn lại tổng 11 → chỉ có 1, 2, 3, 5.","Xếp giảm dần: 9, 5, 3, 2, 1, 0."],a:"953210"}],
+  links:[["Số bé nhất có tổng các chữ số cho trước","bai-1-viet-so-tu-nhien-be-nhat-thoa-man-tong-cac-chu-so-khong-doi-23"],["Số lớn nhất có tổng các chữ số cho trước","bai-3-viet-so-tu-nhien-lon-nhat-thoa-man-tong-cac-chu-so-khong-doi-78"],["Lập được bao nhiêu số từ các chữ số cho trước","bai-2-lap-duoc-bao-nhieu-so-tu-nhien-tu-cac-chu-so-cho-truoc-85"],["Bài toán đếm số cách sắp xếp","bai-4-bai-toan-dem-so-cach-sap-xep-87"]],
+  all:"sap-xep-chu-so-hoan-vi-6"},
+
+ {id:"logic", st:3, name:"Suy luận logic", sub:"Lập bảng, thử từng trường hợp, người nói thật – nói dối",
+  key:["Lập bảng: hàng là người, cột là thuộc tính, gạch dần ô sai","Bài nói thật – nói dối: giả sử từng người là \"thủ phạm\", đếm số câu đúng","Mỗi giả thiết dẫn tới mâu thuẫn thì loại"],
+  probs:[
+   {q:"Ba bạn An, Bình, Chi mặc áo đỏ, xanh, vàng (mỗi bạn một màu). An không mặc áo đỏ. Bình không mặc áo xanh cũng không mặc áo đỏ. Hỏi mỗi bạn mặc áo màu gì?",
+    s:["Bình không đỏ, không xanh → Bình mặc áo vàng.","An không đỏ, không vàng (Bình đã mặc) → An mặc áo xanh.","Chi mặc áo đỏ."],a:"An xanh, Bình vàng, Chi đỏ"},
+   {q:"Một trong ba bạn làm vỡ kính. An nói: \"Bình làm vỡ.\" Bình nói: \"Không phải tớ.\" Chi nói: \"Không phải tớ.\" Biết chỉ có đúng một bạn nói thật. Ai làm vỡ kính?",h:1,
+    s:["Nếu An làm vỡ: câu của Bình đúng, câu của Chi đúng → 2 câu đúng ✗","Nếu Bình làm vỡ: câu của An đúng, câu của Chi đúng → 2 câu đúng ✗","Nếu Chi làm vỡ: chỉ câu của Bình đúng → 1 câu đúng ✓"],a:"Chi"}],
+  links:[["Phương pháp lập bảng","bai-1.-phuong-phap-lap-bang-1962"],["Phương pháp lựa chọn","bai-2.-phuong-phap-lua-chon-1966"],["Phương pháp lựa chọn (tiếp)","bai-3.-phuong-phap-lua-chon-tiep-theo-1967"]],
+  all:"cac-bai-toan-suy-luan-logic-53"},
+
+ {id:"dirichlet", st:3, name:"Nguyên lý Dirichlet", sub:"Chuồng chim bồ câu, rút bi \"chắc chắn\"",
+  key:["Nhốt nhiều hơn n × k con vào n chuồng → có chuồng chứa ít nhất k + 1 con","Bài rút bi: tưởng tượng trường hợp XUI nhất rồi cộng thêm 1","Màu nào có ít bi hơn mức cần thì lấy hết màu đó trong trường hợp xui"],
+  probs:[
+   {q:"Túi có 7 bi đỏ, 5 bi xanh, 3 bi vàng. Không nhìn vào túi, phải lấy ra ít nhất bao nhiêu viên để chắc chắn có 4 viên cùng màu?",h:1,
+    s:["Trường hợp xui nhất: lấy được 3 đỏ, 3 xanh và cả 3 vàng = 9 viên mà chưa có 4 viên cùng màu.","Viên thứ 10 chỉ có thể là đỏ hoặc xanh → đủ 4 viên cùng màu."],a:"10 viên"},
+   {q:"Vẫn túi bi trên. Phải lấy ít nhất bao nhiêu viên để chắc chắn có đủ cả 3 màu?",
+    s:["Xui nhất: lấy hết 7 đỏ và 5 xanh = 12 viên vẫn chưa có vàng.","Viên thứ 13 chắc chắn là bi vàng."],a:"13 viên"},
+   {q:"Một lớp có 40 học sinh. Chứng tỏ có ít nhất 4 bạn sinh cùng một tháng.",
+    s:["Có 12 tháng (12 \"chuồng\"). 40 = 12 × 3 + 4.","Nếu mỗi tháng có nhiều nhất 3 bạn thì cả lớp chỉ có tối đa 36 bạn, vô lý → có tháng có ít nhất 4 bạn."],a:"Đã chứng minh"}],
+  links:[["Nguyên lý chuồng chim bồ câu","bai-1-nguyen-ly-chuong-chim-bo-cau-24"],["Nguyên lý Dirichlet (phần 2)","bai-2-nguyen-ly-dirichlet-phan-2-287"]],
+  all:"nguyen-ly-chuong-chim-bo-cau-55"},
+
+ {id:"tuduy", st:3, name:"Toán tư duy chọn lọc", sub:"Các dạng hay gặp trong đề Kangaroo, SASMO, đề chuyên",
+  key:["Trồng cây quanh hình khép kín: số cây = số khoảng","Xếp hàng: tổng số người = thứ tự từ trên + thứ tự từ dưới − 1","Bài \"gấp đôi mỗi ngày\": suy ngược từ kết quả cuối"],
+  probs:[
+   {q:"Bèo trên mặt hồ mỗi ngày tăng gấp đôi diện tích. Sau 30 ngày thì bèo phủ kín hồ. Hỏi sau bao nhiêu ngày bèo phủ được nửa hồ?",
+    s:["Suy ngược: ngày 30 kín hồ, mà mỗi ngày gấp đôi, nên ngày trước đó bèo phủ nửa hồ."],a:"Ngày thứ 29"},
+   {q:"Xung quanh một vườn hoa hình vuông trồng 36 cây cách đều nhau, mỗi góc đều có một cây. Hỏi mỗi cạnh có bao nhiêu cây (tính cả hai cây ở góc)?",h:1,
+    s:["Đường khép kín: 36 cây tạo thành 36 khoảng → mỗi cạnh 36 : 4 = 9 khoảng.","Một cạnh có 9 khoảng thì có 9 + 1 = 10 cây (kể cả 2 cây ở góc)."],a:"10 cây"},
+   {q:"Trong một hàng, Nam đứng thứ 12 tính từ đầu hàng và thứ 15 tính từ cuối hàng. Hàng có bao nhiêu người?",
+    s:["Đếm từ đầu đến Nam: 12 người; từ cuối đến Nam: 15 người — Nam bị đếm 2 lần.","12 + 15 − 1 = 26."],a:"26 người"}],
+  links:[["1001 bài tư duy lớp 4 – phần 1 (luyện tập)","luyen-tap-1001-bai-toan-tu-duy-lop-4-phan-1-818"],["1001 bài tư duy lớp 4 – phần 1 (video hướng dẫn)","huong-dan-1001-bai-toan-tu-duy-lop-4-phan-1-94"],["Bài toán xếp hàng (livestream)","bai-2-bai-toan-xep-hang-6597"],["Bài toán tư duy \"hack não\"","bai-5-bai-toan-tu-duy-hack-nao-phan-1-6600"]],
+  all:"71"}
+];
+
+const STAGES = {1:["Giai đoạn 1 · Nền tảng về số","khoảng 4 tuần"],2:["Giai đoạn 2 · Toán điển hình","khoảng 5 tuần"],3:["Giai đoạn 3 · Nâng cao","khoảng 6 tuần"]};
+const store = {get(){try{return JSON.parse(localStorage.getItem("tcl4-done")||"[]")}catch(e){return[]}},set(v){try{localStorage.setItem("tcl4-done",JSON.stringify(v))}catch(e){}}};
+let done = new Set(store.get());
+
+function render(){
+  const root = document.getElementById("topics"); let html="", last=0, n=0;
+  for(const t of TOPICS){
+    n++;
+    if(t.st!==last){ if(last) html+="</section>"; html+=`<section class="stage" data-st="${t.st}"><h2 class="stage-title">${STAGES[t.st][0]} <em>${STAGES[t.st][1]}</em></h2>`; last=t.st; }
+    const probs = t.probs.map((p,i)=>`<details class="prob"><p class="q"><b>Bài ${i+1}.</b> ${fr(p.q)}${p.h?'<span class="tag hard">Nâng cao</span>':''}</p><summary>Xem lời giải</summary><div class="sol">${p.s.map(x=>`<p>${fr(x)}</p>`).join("")}<p class="ans">Đáp số: ${fr(p.a)}</p></div></details>`).join("");
+    const links = t.links.map(([name,slug])=>`<li><a href="${M}${slug}.html" target="_blank" rel="noopener">${name}</a></li>`).join("");
+    html+=`<article class="topic${done.has(t.id)?" done":""}" id="${t.id}" data-st="${t.st}">
+      <div class="t-head"><div class="t-no">${String(n).padStart(2,"0")}</div><div><h3>${t.name}</h3><p>${t.sub}</p></div>
+      <label class="chk"><input type="checkbox" id="c-${t.id}" data-id="${t.id}"${done.has(t.id)?" checked":""}> Đã học xong</label></div>
+      <div class="t-body"><div>${probs}</div><div>
+        <div class="key"><h4>Cần nhớ</h4><ul>${t.key.map(k=>`<li>${fr(k)}</li>`).join("")}</ul></div>
+        <div class="links"><h4>Video bài giảng MathX</h4><ol>${links}</ol><a class="all" href="${C}${t.all}.html" target="_blank" rel="noopener">Xem cả chuyên đề →</a></div>
+      </div></div></article>`;
+  }
+  root.innerHTML = html + "</section>";
+  updateProgress();
+}
+function updateProgress(){
+  const k = TOPICS.filter(t=>done.has(t.id)).length;
+  document.getElementById("pDone").textContent=k;
+  document.getElementById("pTotal").textContent=TOPICS.length;
+  document.getElementById("pBar").style.width=(k/TOPICS.length*100)+"%";
+}
+document.addEventListener("change",e=>{
+  const id=e.target.dataset&&e.target.dataset.id; if(!id) return;
+  e.target.checked?done.add(id):done.delete(id); store.set([...done]);
+  document.getElementById(id).classList.toggle("done",e.target.checked); updateProgress(); applyFilter(cur);
+});
+let cur="all";
+function applyFilter(f){
+  cur=f;
+  document.querySelectorAll(".filters button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.f===f));
+  document.querySelectorAll(".topic").forEach(el=>{
+    el.hidden = !(f==="all" || (f==="todo" ? !done.has(el.id) : el.dataset.st===f));
+  });
+  document.querySelectorAll("section.stage").forEach(s=>{ s.hidden = !s.querySelector(".topic:not([hidden])"); });
+  document.getElementById("stage4").hidden = !(f==="all"||f==="todo");
+}
+document.querySelector(".filters").addEventListener("click",e=>{const b=e.target.closest("button"); if(b) applyFilter(b.dataset.f);});
+render();
+</script>
+</body>
+</html>
