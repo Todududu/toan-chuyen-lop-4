@@ -77,8 +77,8 @@ h1{font:800 clamp(34px,6vw,56px)/1 var(--f-display);margin:8px 0 10px;text-wrap:
 .key ul{margin:0;padding-left:18px}
 .key li{margin:2px 0}
 
-details.prob{border-top:1px dashed var(--line);padding:10px 0}
-details.prob:first-of-type{border-top:0}
+.prob{border-top:1px dashed var(--line);padding:12px 0}
+.prob:first-child{border-top:0;padding-top:0}
 .prob .q{margin:0 0 6px}
 .prob .q b{color:var(--pen)}
 .tag{display:inline-block;font:600 11px/1 var(--f-body);letter-spacing:.06em;text-transform:uppercase;
@@ -347,7 +347,7 @@ function render(){
   for(const t of TOPICS){
     n++;
     if(t.st!==last){ if(last) html+="</section>"; html+=`<section class="stage" data-st="${t.st}"><h2 class="stage-title">${STAGES[t.st][0]} <em>${STAGES[t.st][1]}</em></h2>`; last=t.st; }
-    const probs = t.probs.map((p,i)=>`<details class="prob"><p class="q"><b>Bài ${i+1}.</b> ${fr(p.q)}${p.h?'<span class="tag hard">Nâng cao</span>':''}</p><summary>Xem lời giải</summary><div class="sol">${p.s.map(x=>`<p>${fr(x)}</p>`).join("")}<p class="ans">Đáp số: ${fr(p.a)}</p></div></details>`).join("");
+    const probs = t.probs.map((p,i)=>`<div class="prob"><p class="q"><b>Bài ${i+1}.</b> ${fr(p.q)}${p.h?'<span class="tag hard">Nâng cao</span>':''}</p><details><summary>Xem lời giải</summary><div class="sol">${p.s.map(x=>`<p>${fr(x)}</p>`).join("")}<p class="ans">Đáp số: ${fr(p.a)}</p></div></details></div>`).join("");
     const links = t.links.map(([name,slug])=>`<li><a href="${M}${slug}.html" target="_blank" rel="noopener">${name}</a></li>`).join("");
     html+=`<article class="topic${done.has(t.id)?" done":""}" id="${t.id}" data-st="${t.st}">
       <div class="t-head"><div class="t-no">${String(n).padStart(2,"0")}</div><div><h3>${t.name}</h3><p>${t.sub}</p></div>
