@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Toán Chuyên Lớp 6</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Be+Vietnam+Pro:ital,wght@0,400;0,600;0,700;1,400&family=Patrick+Hand&display=swap&subset=vietnamese">
+<style>
+/* Layout: a school exercise book — grid-paper page, red margin rule, topics as numbered lessons in a 4-stage route */
+:root{
+  --paper:#F6F8FC; --grid:#DCE5F2; --ink:#1B2A4A; --muted:#5B6884;
+  --pen:#D3263A; --pen-soft:#FBE3E6; --ok:#1F8A5B; --ok-soft:#DDF2E7;
+  --card:#FFFFFF; --line:#C9D5E6; --chip:#E9EEF7;
+  --f-display:"Baloo 2","Be Vietnam Pro",system-ui,sans-serif;
+  --f-body:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-hand:"Patrick Hand","Be Vietnam Pro",cursive;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#15201C; --grid:#1E2D27; --ink:#E7EFE9; --muted:#9FB3A8;
+  --pen:#FF8A8A; --pen-soft:#3A2427; --ok:#7BD9A6; --ok-soft:#1D3A2D;
+  --card:#1A2723; --line:#2C3D36; --chip:#22332C; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#15201C; --grid:#1E2D27; --ink:#E7EFE9; --muted:#9FB3A8;
+  --pen:#FF8A8A; --pen-soft:#3A2427; --ok:#7BD9A6; --ok-soft:#1D3A2D;
+  --card:#1A2723; --line:#2C3D36; --chip:#22332C; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 16px/1.6 var(--f-body);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:24px 24px}
+.wrap{max-width:1040px;margin:0 auto;padding-block:32px 64px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--pen);outline-offset:2px;border-radius:4px}
+
+header.top{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:end;
+  border-left:3px solid var(--pen);padding-left:20px;margin-bottom:28px}
+.eyebrow{font:600 12px/1 var(--f-body);letter-spacing:.12em;text-transform:uppercase;color:var(--pen)}
+h1{font:800 clamp(34px,6vw,56px)/1 var(--f-display);margin:8px 0 10px;text-wrap:balance}
+.lead{max-width:62ch;color:var(--muted);margin:0}
+.progress{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;min-width:210px}
+.progress .num{font:800 30px/1 var(--f-display);font-variant-numeric:tabular-nums}
+.bar{height:8px;background:var(--chip);border-radius:99px;overflow:hidden;margin-top:8px}
+.bar i{display:block;height:100%;width:0;background:var(--ok);transition:width .4s}
+.progress small{color:var(--muted)}
+
+.route{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:0 0 20px;padding:0;list-style:none}
+.route li{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;min-width:0}
+.route b{font:800 22px/1 var(--f-display);color:var(--pen)}
+.route strong{display:block;margin-top:4px}
+.route span{color:var(--muted);font-size:14px}
+
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 24px}
+.filters button{font:600 14px var(--f-body);color:var(--ink);background:var(--chip);border:1px solid transparent;
+  border-radius:99px;padding:7px 14px;cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+
+.stage-title{font:800 24px/1.2 var(--f-display);margin:36px 0 14px;display:flex;gap:10px;align-items:baseline}
+.stage-title em{font:400 15px var(--f-body);color:var(--muted);font-style:normal}
+
+.topic{background:var(--card);border:1px solid var(--line);border-radius:14px;margin-bottom:16px;overflow:hidden}
+.topic.done{border-color:var(--ok)}
+.t-head{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:start;padding:18px 20px 6px}
+.t-no{font:800 28px/1 var(--f-display);color:var(--pen);font-variant-numeric:tabular-nums;min-width:1.6em}
+.t-head h3{font:800 21px/1.25 var(--f-display);margin:0;text-wrap:balance}
+.t-head p{margin:2px 0 0;color:var(--muted);font-size:15px}
+.chk{display:flex;gap:6px;align-items:center;font-size:14px;color:var(--muted);cursor:pointer;white-space:nowrap}
+.chk input{width:18px;height:18px;accent-color:var(--ok)}
+.topic.done .chk{color:var(--ok);font-weight:600}
+
+.t-body{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:18px;padding:10px 20px 20px}
+.key{background:var(--pen-soft);border-radius:10px;padding:12px 14px;margin-bottom:12px}
+.key h4,.links h4{font:600 12px/1 var(--f-body);letter-spacing:.1em;text-transform:uppercase;margin:0 0 8px;color:var(--pen)}
+.links h4{color:var(--muted)}
+.key ul{margin:0;padding-left:18px}
+.key li{margin:2px 0}
+
+.prob{border-top:1px dashed var(--line);padding:12px 0}
+.prob:first-child{border-top:0;padding-top:0}
+.prob .q{margin:0 0 6px}
+.prob .q b{color:var(--pen)}
+.tag{display:inline-block;font:600 11px/1 var(--f-body);letter-spacing:.06em;text-transform:uppercase;
+  padding:4px 7px;border-radius:6px;background:var(--chip);color:var(--muted);margin-left:6px;vertical-align:2px}
+.tag.hard{background:var(--pen-soft);color:var(--pen)}
+summary{cursor:pointer;font-weight:600;font-size:14px;color:var(--ok);list-style:none;display:inline-flex;gap:6px;align-items:center}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▸";transition:transform .2s}
+details[open] summary::before{transform:rotate(90deg)}
+.sol{font:400 19px/1.45 var(--f-hand);background:var(--ok-soft);border-radius:10px;padding:10px 14px;margin-top:8px}
+.sol p{margin:4px 0}
+.sol .ans{color:var(--pen);font-weight:700}
+
+.links ol{margin:0;padding-left:20px;font-size:15px}
+.links li{margin:4px 0}
+.links a{text-decoration-color:var(--line);text-underline-offset:3px}
+.links a:hover{text-decoration-color:var(--pen)}
+.links .all{display:inline-block;margin-top:10px;font-weight:600;font-size:14px;color:var(--pen)}
+
+.fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;font-size:.82em;line-height:1.05;margin:0 2px}
+.fr b{font-weight:inherit}
+.fr b:first-child{border-bottom:1.5px solid currentColor;padding:0 2px}
+
+.practice{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.practice a{display:block;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;text-decoration:none}
+.practice a:hover{border-color:var(--pen)}
+.practice strong{display:block;font:800 18px/1.25 var(--f-display)}
+.practice span{color:var(--muted);font-size:14px}
+.tips{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--pen);border-radius:12px;padding:16px 20px;margin-top:28px}
+.tips h2{font:800 20px var(--f-display);margin:0 0 6px}
+.tips ul{margin:0;padding-left:20px}
+footer{margin-top:28px;color:var(--muted);font-size:13px}
+
+@media (max-width:820px){
+  .route{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .t-body{grid-template-columns:minmax(0,1fr)}
+  .practice{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){
+  header.top{grid-template-columns:minmax(0,1fr)}
+  .t-head{grid-template-columns:auto minmax(0,1fr)}
+  .chk{grid-column:2}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.grades{display:flex;gap:6px;margin:0 0 18px}
+.grades a{font:600 14px var(--f-body);padding:6px 16px;border-radius:99px;background:var(--chip);text-decoration:none}
+.grades a[aria-current]{background:var(--pen);color:var(--paper)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="grades" aria-label="Chọn lớp"><a href="../">Lớp 4</a><a href="./" aria-current="page">Lớp 6</a></nav>
+  <header class="top">
+    <div>
+      <div class="eyebrow">Sổ tay ôn thi · Nguồn bài giảng: MathX</div>
+      <h1>Toán Chuyên Lớp 6</h1>
+      <p class="lead">15 chuyên đề nâng cao lớp 6, trọng tâm là số học (chia hết, số nguyên tố, ƯCLN – BCNN, số chính phương) và tư duy olympic. Mỗi chuyên đề có phần cần nhớ, bài mẫu kèm lời giải (bấm để xem) và link tới đúng video bài giảng trên MathX.</p>
+    </div>
+    <div class="progress" aria-live="polite">
+      <div class="num"><span id="pDone">0</span>/<span id="pTotal">15</span></div>
+      <small>chuyên đề đã học xong</small>
+      <div class="bar"><i id="pBar"></i></div>
+    </div>
+  </header>
+
+  <ol class="route" aria-label="Lộ trình 4 giai đoạn">
+    <li><b>1</b><strong>Số tự nhiên</strong><span>Tập hợp, lũy thừa, dãy số có quy luật · ~4 tuần</span></li>
+    <li><b>2</b><strong>Số học</strong><span>Chia hết, nguyên tố, ƯCLN–BCNN, chính phương, đồng dư · ~8 tuần</span></li>
+    <li><b>3</b><strong>Số nguyên – Phân số</strong><span>Số nguyên, phân số, giá trị tuyệt đối · ~5 tuần</span></li>
+    <li><b>4</b><strong>Tư duy olympic</strong><span>Dirichlet, tổ hợp, bất biến, hình học · ~6 tuần</span></li>
+  </ol>
+
+  <div class="filters" role="group" aria-label="Lọc theo giai đoạn">
+    <button type="button" data-f="all" aria-pressed="true">Tất cả</button>
+    <button type="button" data-f="1" aria-pressed="false">Giai đoạn 1</button>
+    <button type="button" data-f="2" aria-pressed="false">Giai đoạn 2</button>
+    <button type="button" data-f="3" aria-pressed="false">Giai đoạn 3</button>
+    <button type="button" data-f="4" aria-pressed="false">Giai đoạn 4</button>
+    <button type="button" data-f="todo" aria-pressed="false">Chưa học</button>
+  </div>
+
+  <main id="topics"></main>
+
+  <section id="stage4">
+    <h2 class="stage-title">Luyện đề <em>làm song song từ giai đoạn 2</em></h2>
+    <div class="practice">
+      <a href="https://mathx.vn/chuyen-de/cac-de-thi-toan-lop-6-186.html" target="_blank" rel="noopener"><strong>Đề thi trường Hà Nội – Amsterdam</strong><span>Đề giữa kỳ, cuối kỳ lớp 6 kèm video chữa đề</span></a>
+      <a href="https://mathx.vn/ky-thi-thu-mon-toan.html?category=82" target="_blank" rel="noopener"><strong>Thi thử môn Toán lớp 6</strong><span>Làm đề có giờ, chấm điểm tự động</span></a>
+      <a href="https://mathx.vn/cac-ky-thi-toan.html" target="_blank" rel="noopener"><strong>Các kỳ thi Toán quốc tế</strong><span>IMAS, SEAMO, SASMO, AMC, Kangaroo, TIMO…</span></a>
+    </div>
+  </section>
+
+  <aside class="tips">
+    <h2>Lưu ý khi học lớp 6 nâng cao</h2>
+    <ul>
+      <li>Giai đoạn 2 (số học) chiếm nhiều điểm nhất trong đề chuyên và đề HSG lớp 6. Nên dành nhiều thời gian nhất cho phần này.</li>
+      <li>Mỗi bài giảng MathX lớp 6 có video "Chữa bài tập về nhà" đi kèm. Cho con làm bài về nhà trước, xem video chữa sau.</li>
+      <li>Bài chứng minh phải viết đủ lập luận ("vì… nên…"). Tập cho con trình bày từng bước như lời giải mẫu ở đây.</li>
+      <li>Nếu con đang học lớp 4, hãy học xong trang Lớp 4 trước. Các chuyên đề lớp 6 dùng lại dãy số, chia hết, phân số và Dirichlet ở mức cao hơn.</li>
+    </ul>
+  </aside>
+
+  <footer>Video bài giảng thuộc MathX (cần đăng nhập; một số bài có thể yêu cầu gói học lớp 6). Bài mẫu và lời giải trên trang này được soạn riêng theo từng dạng toán. Tiến độ "đã học" chỉ lưu trên trình duyệt này.</footer>
+</div>
+
+<script>
+const M = "https://mathx.vn/bai-giang/";
+const C = "https://mathx.vn/chuyen-de/";
+const fr = s => s
+  .replace(/\^\{([^}]+)\}|\^([0-9a-zA-Z]+)/g, (m,a,b) => `<sup>${a||b}</sup>`)
+  .replace(/\{([^{}\/]+)\/([^{}]+)\}/g, '<span class="fr"><b>$1</b><b>$2</b></span>');
+
+const TOPICS = [
+ {id:"taphop", st:1, name:"Tập hợp – Số tự nhiên", sub:"Số phần tử, tập hợp con, các phép toán trên N",
+  key:["Số phần tử của dãy cách đều = (Số cuối − Số đầu) : Khoảng cách + 1","Tập hợp có n phần tử thì có 2^n tập hợp con (kể cả ∅ và chính nó)","A ⊂ B khi mọi phần tử của A đều thuộc B"],
+  probs:[
+   {q:"Tập hợp A gồm các số tự nhiên lẻ x với 15 ≤ x ≤ 99. A có bao nhiêu phần tử?",
+    s:["Các phần tử: 15, 17, 19, …, 99 — cách đều 2 đơn vị.","Số phần tử: (99 − 15) : 2 + 1 = 43."],a:"43 phần tử"},
+   {q:"Tập hợp B = {a; b; c; d} có bao nhiêu tập hợp con? Có bao nhiêu tập con có đúng 2 phần tử?",h:1,
+    s:["Mỗi phần tử có 2 lựa chọn: có mặt hoặc không → 2 × 2 × 2 × 2 = 2^4 = 16 tập con.","Tập con 2 phần tử: {a;b}, {a;c}, {a;d}, {b;c}, {b;d}, {c;d} → 6 tập."],a:"16 tập con; 6 tập có 2 phần tử"}],
+  links:[["Số phần tử của tập hợp","bai-1.-so-phan-tu-cua-tap-hop-805"],["Tập hợp con. Số tập hợp con","bai-2.-tap-hop-con.-so-tap-hop-con-806"],["Các phép toán trên tập hợp số tự nhiên","bai-3.-cac-phep-toan-tren-tap-hop-so-tu-nhien-807"]],
+  all:"chuyen-de-tap-hop-tap-hop-so-tu-nhien-104"},
+
+ {id:"luythua", st:1, name:"Lũy thừa", sub:"Biến đổi, tính nhanh, so sánh lũy thừa, chữ số tận cùng",
+  key:["a^m · a^n = a^{m+n} · a^m : a^n = a^{m−n} · (a^m)^n = a^{m·n}","So sánh: đưa về cùng cơ số hoặc cùng số mũ","Chữ số tận cùng của 2, 3, 7, 8 lặp lại theo chu kỳ 4"],
+  probs:[
+   {q:"So sánh 2^300 và 3^200.",
+    s:["Đưa về cùng số mũ 100: 2^300 = (2^3)^100 = 8^100; 3^200 = (3^2)^100 = 9^100.","8^100 < 9^100."],a:"2^300 < 3^200"},
+   {q:"Tìm chữ số tận cùng của 7^2026.",h:1,
+    s:["Chữ số tận cùng của 7^1, 7^2, 7^3, 7^4 lần lượt là 7, 9, 3, 1, rồi lặp lại (chu kỳ 4).","2026 = 4 × 506 + 2 → 7^2026 có tận cùng giống 7^2."],a:"9"},
+   {q:"Tính A = 1 + 2 + 2^2 + 2^3 + … + 2^10.",
+    s:["Nhân 2: 2A = 2 + 2^2 + … + 2^11.","Lấy 2A − A, các số hạng giữa triệt tiêu: A = 2^11 − 1 = 2048 − 1."],a:"A = 2047"}],
+  links:[["Các phép biến đổi lũy thừa","bai-1.-cac-phep-bien-doi-va-tinh-toan-luy-thua-795"],["Tính nhanh lũy thừa","bai-3.-tinh-nhanh-luy-thua-797"],["Tìm chữ số tận cùng của lũy thừa","bai-5.-tim-chu-so-tan-cung-cua-luy-thua-799"],["So sánh lũy thừa","bai-8.-so-sanh-luy-thua-802"]],
+  all:"chuyen-de-luy-thua-105"},
+
+ {id:"dayso", st:1, name:"Dãy số có quy luật", sub:"Số hạng thứ n, tính nhanh tổng dãy tích",
+  key:["Tổng các số lẻ đầu tiên: 1 + 3 + … + (2n − 1) = n^2","1·2 + 2·3 + … + n(n+1) = n(n+1)(n+2) : 3","Mẹo: nhân cả tổng với 1 số để các số hạng \"lệch nhau\" rồi triệt tiêu"],
+  probs:[
+   {q:"Tính S = 1 + 3 + 5 + … + 99.",
+    s:["Có (99 − 1) : 2 + 1 = 50 số hạng.","S = (1 + 99) × 50 : 2 = 2500 (cũng bằng 50^2)."],a:"2500"},
+   {q:"Tính S = 1·2 + 2·3 + 3·4 + … + 99·100.",h:1,
+    s:["Nhân 3: 3 · k(k+1) = k(k+1)(k+2) − (k−1)k(k+1).","Cộng từ k = 1 đến 99, các số hạng triệt tiêu: 3S = 99 · 100 · 101.","S = 99 · 100 · 101 : 3 = 333300."],a:"333300"}],
+  links:[["Dãy số có quy luật","bai-1.-day-so-co-quy-luat-1726"],["Tìm số hạng thứ n","bai-2.-tim-so-hang-thu-n-cua-day-so-1727"],["Tính nhanh dãy số có quy luật","bai-4.-tinh-nhanh-day-so-co-quy-luat-1729"]],
+  all:"chuyen-de-day-so-co-quy-luat-190"},
+
+ {id:"chiahet", st:2, name:"Tính chất chia hết", sub:"Chứng minh chia hết, tìm n để biểu thức chia hết",
+  key:["Nếu a ⋮ m và b ⋮ m thì (a ± b) ⋮ m","Tích k số tự nhiên liên tiếp chia hết cho k","Tìm n để (n + a) ⋮ (n + b): tách n + a = (n + b) + (a − b)"],
+  probs:[
+   {q:"Chứng minh tích ba số tự nhiên liên tiếp luôn chia hết cho 6.",
+    s:["Trong 2 số liên tiếp luôn có 1 số chẵn → tích chia hết cho 2.","Trong 3 số liên tiếp luôn có 1 số chia hết cho 3 → tích chia hết cho 3.","2 và 3 nguyên tố cùng nhau → tích chia hết cho 2 × 3 = 6."],a:"Đã chứng minh"},
+   {q:"Tìm số tự nhiên n để n + 5 chia hết cho n + 1.",h:1,
+    s:["n + 5 = (n + 1) + 4. Vì (n + 1) ⋮ (n + 1) nên cần 4 ⋮ (n + 1).","n + 1 là ước của 4: n + 1 ∈ {1; 2; 4} → n ∈ {0; 1; 3}."],a:"n ∈ {0; 1; 3}"},
+   {q:"Chứng minh n^2 + n + 1 không chia hết cho 2 với mọi số tự nhiên n.",
+    s:["n^2 + n = n(n + 1) là tích hai số liên tiếp → là số chẵn.","Cộng thêm 1 → n^2 + n + 1 là số lẻ."],a:"Đã chứng minh"}],
+  links:[["Tính chất chia hết – bài 1","tinh-chat-chia-het-bai-1-1215"],["Tính chất chia hết – bài 2","tinh-chat-chia-het-bai-2-1216"],["Dấu hiệu chia hết – bài 1","dau-hieu-chia-het-bai-1-1220"]],
+  all:"chuyen-de-tinh-chat-chia-het-dau-hieu-chia-het-106"},
+
+ {id:"nguyento", st:2, name:"Số nguyên tố", sub:"Xét số dư, tính chẵn lẻ, dạng 6k ± 1",
+  key:["2 là số nguyên tố chẵn duy nhất","Số nguyên tố lớn hơn 3 có dạng 6k + 1 hoặc 6k − 1","Xét số dư khi chia cho 3 để loại trường hợp"],
+  probs:[
+   {q:"Tìm số nguyên tố p sao cho p + 2 và p + 4 cũng là số nguyên tố.",h:1,
+    s:["p = 3: ba số 3, 5, 7 đều nguyên tố ✓","p = 3k + 1 (k ≥ 1): p + 2 = 3k + 3 chia hết cho 3 và lớn hơn 3 → không nguyên tố.","p = 3k + 2: p + 4 = 3k + 6 chia hết cho 3 và lớn hơn 3 → không nguyên tố.","p = 2: p + 2 = 4 không nguyên tố."],a:"p = 3"},
+   {q:"Có hai số nguyên tố nào có tổng bằng 2027 không?",
+    s:["2027 lẻ, nên một số phải chẵn → số đó là 2, số kia là 2025.","2025 = 45^2 chia hết cho 5 → không phải số nguyên tố."],a:"Không có"}],
+  links:[["Các bài toán về số nguyên tố","bai-1.-cac-bai-toan-ve-so-nguyen-to-1232"],["Số nguyên tố (tiếp, bài 2)","bai-2.-cac-bai-toan-ve-so-nguyen-to-tiep-1233"],["Số nguyên tố (tiếp, bài 5)","bai-5.-cac-bai-toan-ve-so-nguyen-to-tiep-1236"]],
+  all:"chuyen-de-so-nguyen-to-115"},
+
+ {id:"ucln", st:2, name:"Ước – Bội, ƯCLN, BCNN", sub:"Tìm số theo ƯCLN, bài toán xếp hàng thừa / thiếu",
+  key:["ƯCLN(a, b) × BCNN(a, b) = a × b","Nếu ƯCLN(a, b) = d thì a = d·x, b = d·y với ƯCLN(x, y) = 1","Xếp hàng \"đều thừa r\": số cần tìm trừ r là bội chung"],
+  probs:[
+   {q:"Tìm hai số tự nhiên biết tổng của chúng là 84 và ƯCLN của chúng là 12.",h:1,
+    s:["Đặt a = 12x, b = 12y với ƯCLN(x, y) = 1, x ≤ y.","12(x + y) = 84 → x + y = 7.","Các cặp nguyên tố cùng nhau: (1; 6), (2; 5), (3; 4)."],a:"(12; 72), (24; 60), (36; 48)"},
+   {q:"Số học sinh một trường trong khoảng 300 đến 400. Xếp hàng 12, hàng 15, hàng 18 đều thừa 5 em. Tìm số học sinh.",
+    s:["Số học sinh trừ 5 chia hết cho 12, 15, 18 → là bội của BCNN(12, 15, 18) = 180.","Số học sinh − 5 ∈ {180; 360; …}; trong khoảng 295 đến 395 chỉ có 360.","Số học sinh = 365."],a:"365 học sinh"}],
+  links:[["Ước, bội, ước chung, bội chung","bai-01-cac-bai-toan-ve-uoc-boi-uoc-chung-boi-chung-1247"],["Tìm số thỏa mãn điều kiện ước, bội","bai-03-tim-so-thoa-man-dieu-kien-chia-het-uoc-so-va-boi-so-1249"],["Các bài toán về ƯC, BC, ƯCLN, BCNN","bai-07.-cac-bai-toan-ve-uc-bc-ucln-bcnn-1253"],["Chứng minh hai số nguyên tố cùng nhau","bai-09-chung-minh-hai-so-nguyen-to-cung-nhau-1255"]],
+  all:"chuyen-de-uoc-va-boi-ucln-bcnn-116"},
+
+ {id:"chinhphuong", st:2, name:"Số chính phương", sub:"Chữ số tận cùng, số dư khi chia 3, 4",
+  key:["Số chính phương chỉ tận cùng bằng 0, 1, 4, 5, 6, 9","Chia cho 3 chỉ dư 0 hoặc 1; chia cho 4 chỉ dư 0 hoặc 1","Kẹp giữa hai số chính phương liên tiếp: n^2 < A < (n+1)^2 thì A không chính phương"],
+  probs:[
+   {q:"Chứng minh A = 10^2026 + 8 không phải là số chính phương.",
+    s:["10^2026 tận cùng là 0 → A tận cùng là 8.","Số chính phương không tận cùng bằng 8."],a:"Đã chứng minh"},
+   {q:"Tìm số tự nhiên n để n^2 + 2n + 12 là số chính phương.",h:1,
+    s:["n^2 + 2n + 12 = (n + 1)^2 + 11. Đặt bằng m^2 (m tự nhiên).","m^2 − (n + 1)^2 = 11 → (m − n − 1)(m + n + 1) = 11 = 1 × 11.","m − n − 1 = 1 và m + n + 1 = 11 → m = 6, n = 4.","Thử lại: 16 + 8 + 12 = 36 = 6^2 ✓"],a:"n = 4"}],
+  links:[["Chữ số tận cùng của số chính phương","bai-01-chu-so-tan-cung-cua-so-chinh-phuong-1257"],["Tính chất của số chính phương","bai-02-tinh-chat-cua-so-chinh-phuong-1259"],["Số dư của số chính phương khi chia cho 3","bai-05-so-du-cua-so-chinh-phuong-khi-chia-cho-3-1369"],["Số chính phương chia 4, 5, 8, 9","bai-06-so-chinh-phuong-chia-4-5-8-9-1262"]],
+  all:"chuyen-de-so-chinh-phuong-117"},
+
+ {id:"dongdu", st:2, name:"Đồng dư", sub:"Tìm số dư của lũy thừa lớn",
+  key:["a ≡ b (mod m) nghĩa là a và b có cùng số dư khi chia cho m","Nếu a ≡ b thì a^n ≡ b^n (mod m)","Tìm lũy thừa nhỏ ≡ 1 rồi chia số mũ theo chu kỳ đó"],
+  probs:[
+   {q:"Tìm số dư khi chia 2^2026 cho 7.",h:1,
+    s:["2^3 = 8 ≡ 1 (mod 7).","2026 = 3 × 675 + 1 → 2^2026 = (2^3)^675 × 2 ≡ 1 × 2 (mod 7)."],a:"Dư 2"},
+   {q:"Chứng minh 3^2026 − 1 chia hết cho 8.",
+    s:["3^2 = 9 ≡ 1 (mod 8).","3^2026 = (3^2)^1013 ≡ 1 (mod 8) → 3^2026 − 1 ≡ 0 (mod 8)."],a:"Đã chứng minh"}],
+  links:[["Chuyên đề đồng dư – Bài 1","chuyen-de-dong-du-bai-1-10454"],["Chuyên đề đồng dư – Bài 2","chuyen-de-dong-du-bai-2-10455"],["Chuyên đề đồng dư – Bài 3","chuyen-de-dong-du-bai-3-10456"]],
+  all:"chuyen-de-dong-du-605"},
+
+ {id:"songuyen", st:3, name:"Số nguyên", sub:"Tính tổng đan dấu, tìm x thỏa mãn tích, bất đẳng thức",
+  key:["Ghép cặp các số hạng đan dấu để tính nhanh","Tích hai số âm khi và chỉ khi hai số trái dấu","Thứ tự trên trục số: số nào nằm bên trái thì nhỏ hơn"],
+  probs:[
+   {q:"Tính S = 1 − 2 + 3 − 4 + … + 99 − 100.",
+    s:["Ghép từng cặp: (1 − 2) + (3 − 4) + … + (99 − 100).","Có 50 cặp, mỗi cặp bằng −1."],a:"S = −50"},
+   {q:"Tìm các số nguyên x thỏa mãn (x − 3)(x + 2) < 0.",h:1,
+    s:["Tích âm ⇔ hai thừa số trái dấu. Vì x + 2 > x − 3 nên x + 2 > 0 và x − 3 < 0.","−2 < x < 3."],a:"x ∈ {−1; 0; 1; 2}"}],
+  links:[["Số nguyên và tập hợp số nguyên","bai-01-so-nguyen-va-tap-hop-so-nguyen-1266"],["Các bài toán về số nguyên","bai-03-cac-bai-toan-ve-so-nguyen-1269"],["Các bài toán số nguyên (tiếp)","bai-05-cac-bai-toan-so-nguyen-tiep-1271"]],
+  all:"chuyen-de-so-nguyen-118"},
+
+ {id:"phanso", st:3, name:"Phân số", sub:"Phân số tối giản, phân số nguyên, tính nhanh dãy phân số",
+  key:["Tách {n+a/n+b} = 1 + {a−b/n+b} để tìm n cho giá trị nguyên","Phân số tối giản: chứng minh mọi ước chung d của tử và mẫu đều bằng 1","{k/n(n+k)} = {1/n} − {1/n+k}"],
+  probs:[
+   {q:"Tìm số nguyên n để phân số {n+3/n−2} có giá trị là số nguyên.",h:1,
+    s:["{n+3/n−2} = {(n−2)+5/n−2} = 1 + {5/n−2}.","Cần (n − 2) là ước của 5: n − 2 ∈ {−5; −1; 1; 5}."],a:"n ∈ {−3; 1; 3; 7}"},
+   {q:"Chứng minh phân số {12n+1/30n+2} tối giản với mọi số tự nhiên n.",h:1,
+    s:["Gọi d = ƯCLN(12n + 1; 30n + 2).","d chia hết 5(12n + 1) = 60n + 5 và 2(30n + 2) = 60n + 4.","Hiệu hai số là 1 → d chia hết 1 → d = 1."],a:"Đã chứng minh"},
+   {q:"Tính A = {1/1·3} + {1/3·5} + {1/5·7} + … + {1/99·101}.",
+    s:["{2/n(n+2)} = {1/n} − {1/n+2} nên 2A = 1 − {1/3} + {1/3} − {1/5} + … − {1/101} = 1 − {1/101} = {100/101}.","A = {100/101} : 2."],a:"A = {50/101}"}],
+  links:[["So sánh phân số","bai-04-so-sanh-phan-so-1719"],["Tính nhanh dãy phân số có quy luật","bai-07-tinh-nhanh-day-phan-so-co-quy-luat-1279"],["Điều kiện để phân số tối giản","bai-14-tim-dieu-kien-de-phan-so-toi-gian-1285"],["Điều kiện để phân số là số nguyên","bai-15-tim-dieu-kien-de-phan-so-co-gia-tri-la-so-nguyen-1286"]],
+  all:"chuyen-de-phan-so-119"},
+
+ {id:"gttd", st:3, name:"Giá trị tuyệt đối", sub:"Tìm x, giá trị nhỏ nhất của tổng giá trị tuyệt đối",
+  key:["|a| = a nếu a ≥ 0; |a| = −a nếu a < 0","|A| = k (k ≥ 0) ⇔ A = k hoặc A = −k","|a| + |b| ≥ |a + b|, dấu bằng khi a, b cùng dấu"],
+  probs:[
+   {q:"Tìm x biết |x − 3| = 5.",
+    s:["x − 3 = 5 → x = 8; hoặc x − 3 = −5 → x = −2."],a:"x = 8 hoặc x = −2"},
+   {q:"Tìm giá trị nhỏ nhất của A = |x − 2| + |x − 7|.",h:1,
+    s:["A = |x − 2| + |7 − x| ≥ |(x − 2) + (7 − x)| = 5.","Dấu bằng khi x − 2 ≥ 0 và 7 − x ≥ 0, tức 2 ≤ x ≤ 7."],a:"Nhỏ nhất bằng 5, khi 2 ≤ x ≤ 7"}],
+  links:[["Bài tập nâng cao về giá trị tuyệt đối","bai-1-bai-tap-nang-cao-ve-gia-tri-tuyet-doi-1287"],["Phương trình chứa dấu giá trị tuyệt đối","bai-3-phuong-trinh-chua-dau-gia-tri-tuyet-doi-1289"]],
+  all:"chuyen-de-gia-tri-tuyet-doi-120"},
+
+ {id:"dirichlet", st:4, name:"Nguyên lý Dirichlet", sub:"Chứng minh chia hết, chứng minh tồn tại",
+  key:["n + 1 \"thỏ\" vào n \"chuồng\" → có chuồng chứa ít nhất 2 thỏ","Bài chia hết: \"chuồng\" là các số dư khi chia cho m","Hai số cùng số dư khi chia cho m thì hiệu của chúng chia hết cho m"],
+  probs:[
+   {q:"Chứng minh trong 6 số tự nhiên bất kỳ luôn có 2 số có hiệu chia hết cho 5.",
+    s:["Chia cho 5 chỉ có 5 số dư: 0, 1, 2, 3, 4 (5 chuồng).","6 số (6 thỏ) → có 2 số cùng số dư.","Hiệu của hai số đó chia hết cho 5."],a:"Đã chứng minh"},
+   {q:"Chứng minh tồn tại một số có dạng 20262026…2026 (viết liền nhiều lần 2026) chia hết cho 2027.",h:1,
+    s:["Xét 2028 số: 2026; 20262026; …; (2028 lần 2026). Chia cho 2027 chỉ có 2027 số dư → có 2 số cùng dư.","Hiệu của chúng có dạng 2026…2026 × 10^k và chia hết cho 2027.","2027 không có ước 2 và 5 nên nguyên tố cùng nhau với 10^k → 2026…2026 chia hết cho 2027."],a:"Đã chứng minh"}],
+  links:[["Nguyên lý Dirichlet – bài toán cơ bản","bai-1-nguyen-ly-dirichlet-va-mot-so-bai-toan-co-ban-1291"],["Xác định \"chuồng\" trong bài toán Dirichlet","bai-4-xac-dinh-chuong-trong-bai-toan-dirichlet-1294"],["Dirichlet và chứng minh chia hết","bai-5-nguyen-ly-dirichlet-va-bai-toan-chung-minh-chia-het-1295"],["Dirichlet và chứng minh tồn tại","bai-7-nguyen-ly-dirichlet-va-bai-toan-chung-minh-ton-tai-1297"]],
+  all:"chuyen-de-nguyen-ly-dirichlet-121"},
+
+ {id:"tohop", st:4, name:"Mở đầu về tổ hợp", sub:"Hoán vị, sắp xếp có điều kiện, đếm tam giác",
+  key:["Xếp n người vào n chỗ: n × (n − 1) × … × 1 cách","Hai người phải đứng cạnh nhau: \"buộc\" họ thành 1 khối rồi nhân 2","Chọn 3 điểm không thẳng hàng tạo 1 tam giác: n(n − 1)(n − 2) : 6"],
+  probs:[
+   {q:"Có bao nhiêu cách xếp 5 bạn ngồi vào 5 ghế xếp thành một hàng ngang? Nếu An và Bình phải ngồi cạnh nhau thì có bao nhiêu cách?",h:1,
+    s:["Không điều kiện: 5 × 4 × 3 × 2 × 1 = 120 cách.","Buộc An – Bình thành 1 khối: xếp 4 \"đơn vị\" có 4 × 3 × 2 × 1 = 24 cách.","Trong khối, An – Bình đổi chỗ được 2 cách → 24 × 2 = 48."],a:"120 cách; 48 cách"},
+   {q:"Cho 10 điểm, không có 3 điểm nào thẳng hàng. Có bao nhiêu tam giác có đỉnh là 3 trong 10 điểm đó?",
+    s:["Chọn có thứ tự: 10 × 9 × 8 = 720 cách.","Mỗi tam giác được đếm 3 × 2 × 1 = 6 lần → 720 : 6."],a:"120 tam giác"}],
+  links:[["Giới thiệu về hoán vị","bai-1-nguyen-ly-cong-nguyen-ly-nhan-1299"],["Hoán vị có ràng buộc điều kiện","bai-4-hoan-vi-va-cac-bai-toan-lien-quan-tiep-1302"],["Ứng dụng tổ hợp đếm số tam giác","bai-6-mot-so-bai-toan-ve-so-cach-to-mau-so-cach-sap-xep-tiep-1304"]],
+  all:"chuyen-de-mo-dau-ve-toan-to-hop-122"},
+
+ {id:"batbien", st:4, name:"Nguyên lý bất biến", sub:"Tìm đại lượng không đổi sau mỗi bước biến đổi",
+  key:["Tìm một đại lượng không đổi qua mỗi bước (tính chẵn lẻ của tổng, số dư…)","So sánh đại lượng đó ở trạng thái đầu và trạng thái cần đạt","Bài lát gạch: tô màu xen kẽ như bàn cờ"],
+  probs:[
+   {q:"Trên bảng ghi các số 1, 2, 3, …, 10. Mỗi lần xóa hai số bất kỳ và viết thêm hiệu của chúng (số lớn trừ số bé). Làm đến khi còn một số. Số cuối cùng có thể là 0 không?",h:1,
+    s:["Xóa a, b (a ≥ b), viết a − b: tổng các số giảm đi 2b → tính chẵn lẻ của tổng không đổi.","Tổng ban đầu 1 + 2 + … + 10 = 55 là số lẻ → số cuối cùng luôn là số lẻ."],a:"Không thể bằng 0"},
+   {q:"Bàn cờ 8 × 8 bị cắt bỏ 2 ô ở hai góc đối diện. Có thể phủ kín 62 ô còn lại bằng 31 quân domino 1 × 2 không?",h:1,
+    s:["Tô bàn cờ đen trắng xen kẽ. Hai ô góc đối diện cùng màu → còn 32 ô màu này, 30 ô màu kia.","Mỗi domino luôn phủ 1 ô đen và 1 ô trắng → 31 domino phủ 31 đen, 31 trắng, không khớp 32 và 30."],a:"Không thể"}],
+  links:[["Giới thiệu nguyên lý bất biến","bai-1-gioi-thieu-nguyen-ly-bat-bien-qua-vi-du-don-gian-1305"],["Một số bài toán về nguyên lý bất biến","bai-2-mot-so-bai-toan-ve-nguyen-ly-bat-bien-1306"]],
+  all:"chuyen-de-lam-quen-voi-nguyen-ly-bat-bien-trong-giai-toan-123"},
+
+ {id:"hinhhoc", st:4, name:"Hình học nâng cao", sub:"Đếm đoạn thẳng, đường thẳng; trung điểm",
+  key:["n điểm, không 3 điểm thẳng hàng: n(n − 1) : 2 đường thẳng (hoặc đoạn thẳng)","Điểm M nằm giữa A và B ⇔ AM + MB = AB","M là trung điểm AB ⇔ MA = MB = AB : 2"],
+  probs:[
+   {q:"Cho n điểm, không có 3 điểm nào thẳng hàng. Kẻ các đường thẳng đi qua từng cặp điểm thì được 105 đường thẳng. Tìm n.",h:1,
+    s:["Số đường thẳng = n(n − 1) : 2 = 105 → n(n − 1) = 210.","210 = 15 × 14 → n = 15."],a:"n = 15"},
+   {q:"Trên tia Ox lấy điểm A và B với OA = 3 cm, OB = 7 cm. Gọi M là trung điểm của AB. Tính OM.",
+    s:["A, B cùng trên tia Ox và OA < OB → A nằm giữa O và B → AB = 7 − 3 = 4 cm.","AM = 4 : 2 = 2 cm; M nằm giữa A và B → OM = OA + AM = 3 + 2."],a:"OM = 5 cm"}],
+  links:[["Đếm số đoạn thẳng, đường thẳng","bai-1.-dem-so-doan-thang-duong-thang-1652"],["Đếm đoạn thẳng, đường thẳng (tiếp)","bai-2.-dem-so-doan-thang-duong-thang-tiep-1654"],["Đoạn thẳng, trung điểm đoạn thẳng","bai-4.-doan-thang.-do-dai-doan-thang.-trung-diem-doan-thang-1701"]],
+  all:"chuyen-de-hinh-hoc-nang-cao-124"}
+];
+
+const STAGES = {1:["Giai đoạn 1 · Số tự nhiên","khoảng 4 tuần"],2:["Giai đoạn 2 · Số học","khoảng 8 tuần"],3:["Giai đoạn 3 · Số nguyên – Phân số","khoảng 5 tuần"],4:["Giai đoạn 4 · Tư duy olympic","khoảng 6 tuần"]};
+const KEY = "tcl6-done";
+const store = {get(){try{return JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){return[]}},set(v){try{localStorage.setItem(KEY,JSON.stringify(v))}catch(e){}}};
+let done = new Set(store.get());
+
+function render(){
+  const root = document.getElementById("topics"); let html="", last=0, n=0;
+  for(const t of TOPICS){
+    n++;
+    if(t.st!==last){ if(last) html+="</section>"; html+=`<section class="stage" data-st="${t.st}"><h2 class="stage-title">${STAGES[t.st][0]} <em>${STAGES[t.st][1]}</em></h2>`; last=t.st; }
+    const probs = t.probs.map((p,i)=>`<div class="prob"><p class="q"><b>Bài ${i+1}.</b> ${fr(p.q)}${p.h?'<span class="tag hard">Nâng cao</span>':''}</p><details><summary>Xem lời giải</summary><div class="sol">${p.s.map(x=>`<p>${fr(x)}</p>`).join("")}<p class="ans">Đáp số: ${fr(p.a)}</p></div></details></div>`).join("");
+    const links = t.links.map(([name,slug])=>`<li><a href="${M}${slug}.html" target="_blank" rel="noopener">${name}</a></li>`).join("");
+    html+=`<article class="topic${done.has(t.id)?" done":""}" id="${t.id}" data-st="${t.st}">
+      <div class="t-head"><div class="t-no">${String(n).padStart(2,"0")}</div><div><h3>${t.name}</h3><p>${t.sub}</p></div>
+      <label class="chk"><input type="checkbox" id="c-${t.id}" data-id="${t.id}"${done.has(t.id)?" checked":""}> Đã học xong</label></div>
+      <div class="t-body"><div>${probs}</div><div>
+        <div class="key"><h4>Cần nhớ</h4><ul>${t.key.map(k=>`<li>${fr(k)}</li>`).join("")}</ul></div>
+        <div class="links"><h4>Video bài giảng MathX</h4><ol>${links}</ol><a class="all" href="${C}${t.all}.html" target="_blank" rel="noopener">Xem cả chuyên đề →</a></div>
+      </div></div></article>`;
+  }
+  root.innerHTML = html + "</section>";
+  updateProgress();
+}
+function updateProgress(){
+  const k = TOPICS.filter(t=>done.has(t.id)).length;
+  document.getElementById("pDone").textContent=k;
+  document.getElementById("pTotal").textContent=TOPICS.length;
+  document.getElementById("pBar").style.width=(k/TOPICS.length*100)+"%";
+}
+document.addEventListener("change",e=>{
+  const id=e.target.dataset&&e.target.dataset.id; if(!id) return;
+  e.target.checked?done.add(id):done.delete(id); store.set([...done]);
+  document.getElementById(id).classList.toggle("done",e.target.checked); updateProgress(); applyFilter(cur);
+});
+let cur="all";
+function applyFilter(f){
+  cur=f;
+  document.querySelectorAll(".filters button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.f===f));
+  document.querySelectorAll(".topic").forEach(el=>{
+    el.hidden = !(f==="all" || (f==="todo" ? !done.has(el.id) : el.dataset.st===f));
+  });
+  document.querySelectorAll("section.stage").forEach(s=>{ s.hidden = !s.querySelector(".topic:not([hidden])"); });
+  document.getElementById("stage4").hidden = !(f==="all"||f==="todo");
+}
+document.querySelector(".filters").addEventListener("click",e=>{const b=e.target.closest("button"); if(b) applyFilter(b.dataset.f);});
+render();
+</script>
+</body>
+</html>

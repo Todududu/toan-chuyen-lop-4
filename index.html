@@ -123,11 +123,15 @@ footer{margin-top:28px;color:var(--muted);font-size:13px}
   .chk{grid-column:2}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.grades{display:flex;gap:6px;margin:0 0 18px}
+.grades a{font:600 14px var(--f-body);padding:6px 16px;border-radius:99px;background:var(--chip);text-decoration:none}
+.grades a[aria-current]{background:var(--pen);color:var(--paper)}
 </style>
 </head>
 <body>
 
 <div class="wrap">
+  <nav class="grades" aria-label="Chọn lớp"><a href="./" aria-current="page">Lớp 4</a><a href="lop-6/">Lớp 6</a></nav>
   <header class="top">
     <div>
       <div class="eyebrow">Sổ tay ôn thi · Nguồn bài giảng: MathX</div>

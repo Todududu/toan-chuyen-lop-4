@@ -8,3 +8,8 @@ Mỗi chuyên đề gồm:
 - **Video bài giảng:** link tới bài giảng tương ứng trên [MathX](https://mathx.vn) (cần đăng nhập)
 
 Mở file `index.html` bằng trình duyệt để dùng. Ô "Đã học xong" lưu tiến độ ngay trên trình duyệt đó.
+
+## Các trang
+
+- [Lớp 4](https://todududu.github.io/toan-chuyen-lop-4/): 14 chuyên đề nâng cao, ôn thi vào lớp 6 chuyên
+- [Lớp 6](https://todududu.github.io/toan-chuyen-lop-4/lop-6/): 15 chuyên đề nâng cao lớp 6, đề thi trường Hà Nội – Amsterdam
